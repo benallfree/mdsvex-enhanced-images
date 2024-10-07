@@ -1,0 +1,17 @@
+{
+  "name": "mdsvex-enhanced-images",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "type": "module",
+  "peerDependencies": {
+    "svelte": "^4.2.19"
+  },
+  "dependencies": {
+    "just-camel-case": "^6.2.0",
+    "unist-util-visit": "^5.0.0"
+  },
+  "files": [
+    "src",
+    "*.md"
+  ]
+}
