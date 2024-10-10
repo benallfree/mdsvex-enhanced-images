@@ -5,6 +5,14 @@
     "name": "benallfree",
     "url": "https://github.com/benallfree"
   },
+  "keywords": [
+    "mdsvex",
+    "svelte",
+    "markdown",
+    "images",
+    "enhanced-img",
+    "sveltekit"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/benallfree/mdsvex-enhanced-images/issues"
