@@ -1,5 +1,11 @@
 # mdsvex-enhanced-images
 
+## 0.1.0
+
+### Minor Changes
+
+- Changed to factory function and added custom path resolver
+
 ## 0.0.3
 
 ### Patch Changes
