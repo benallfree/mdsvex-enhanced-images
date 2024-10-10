@@ -28,7 +28,8 @@
   "type": "module",
   "scripts": {
     "build": "tsup-node src/index.ts --format=esm  --dts",
-    "watch": "tsup-node src/index.ts --format=esm  --dts --watch"
+    "watch": "tsup-node src/index.ts --format=esm  --dts --watch",
+    "test": "bun test"
   },
   "peerDependencies": {},
   "dependencies": {
