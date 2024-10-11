@@ -1,5 +1,11 @@
 # mdsvex-enhanced-images
 
+## 0.2.1
+
+### Patch Changes
+
+- Support alt tags
+
 ## 0.2.0
 
 ### Minor Changes
