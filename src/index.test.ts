@@ -4,7 +4,7 @@ import { enhancedImages } from './index'
 
 const _compile = (markdown: string) =>
   compile(markdown, {
-    rehypePlugins: [enhancedImages]
+    remarkPlugins: [enhancedImages]
   })
 
 describe('enhancedImages plugin', () => {
@@ -13,21 +13,21 @@ describe('enhancedImages plugin', () => {
     const compiled = await _compile(markdown)
 
     expect(compiled?.code).toContain('<enhanced:img')
-    expect(compiled?.code).toContain(`from "./image.jpg?enhanced"`)
+    expect(compiled?.code).toContain(`"./image.jpg"`)
   })
 
   test(`path aliases are preserved`, async () => {
     const markdown = '![Alt text]($images/image.jpg)'
     const compiled = await _compile(markdown)
 
-    expect(compiled?.code).toContain(`from "$images/image.jpg?enhanced"`)
+    expect(compiled?.code).toContain(`"$images/image.jpg"`)
   })
 
   test(`relative paths are preserved`, async () => {
     const markdown = '![Alt text](../image.jpg)'
     const compiled = await _compile(markdown)
 
-    expect(compiled?.code).toContain(`from "../image.jpg?enhanced"`)
+    expect(compiled?.code).toContain(`"../image.jpg"`)
   })
 
   test(`handles frontmatter`, async () => {
@@ -54,5 +54,6 @@ published: true
       'export const metadata = {"title":"How.This.Blog.Developed","description":"How.This.Blog.Developed","date":"2024-7-22","categories":["sveltekit","optimization"],"published":true}'
     )
     expect(compiled?.code).toContain('<enhanced:img')
+    expect(compiled?.code).toContain('./image.jpg')
   })
 })

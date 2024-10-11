@@ -21,7 +21,7 @@ import { enhancedImages } from 'mdsvex-enhanced-images'
 export default {
   preprocess: [
     mdsvex({
-      rehypePlugins: [enhancedImages]
+      remarkPlugins: [enhancedImages]
     })
   ]
 }
@@ -49,17 +49,15 @@ Now use normal Markdown-style images just as you normally would. By default, pat
 
 ## Advanced Usage: Custom Path Resolution
 
-If the default path resolution strategy doens't work for your needs, you can optionally provide a custom `resolve` function.
+If the default path resolution strategy doens't work for your needs, you can optionally provide a custom `resolve` function:
 
 ```js
-import { defaultResolverFactory } from 'mdsvex-enhanced-images'
-
 mdsvex({
-  rehypePlugins: [
+  remarkPlugins: [
     [
       enhancedImages,
       {
-        resolve: (path) => defaultResolverFactory() // This is the default
+        resolve: (path) => path
       }
     ]
   ]
@@ -77,14 +75,13 @@ import { defaultResolverFactory } from 'mdsvex-enhanced-images'
 const config = {
   preprocess: [
     mdsvex({
-      rehypePlugins: [
+      remarkPlugins: [
         [
           enhancedImages,
           {
-            resolve: (path) =>
-              defaultResolverFactory((path) =>
-                join('src', 'assets', 'images', path)
-              )
+            resolve: defaultResolverFactory((path) =>
+              join('src', 'assets', 'images', path)
+            )
           }
         ]
       ]

@@ -7,11 +7,14 @@ const config = {
   extensions: ['.svelte', '.md'],
   preprocess: mdsvex({
     extensions: ['.md'],
-    rehypePlugins: [enhancedImages]
+    remarkPlugins: [enhancedImages]
   }),
 
   kit: {
-    adapter: adapter()
+    adapter: adapter(),
+    alias: {
+      $images: './src/assets'
+    }
   }
 }
 
