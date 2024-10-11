@@ -1,8 +1,9 @@
-import camelCase from 'just-camel-case'
-import type { Root } from 'mdast'
+import { keys, map } from '@s-libs/micro-dash'
+import type { Element, Node, Root } from 'hast'
+import type {} from 'mdast'
 import { sep } from 'path'
 import type { Plugin } from 'unified'
-import { visit } from 'unist-util-visit'
+import { Test, visit } from 'unist-util-visit'
 
 const RE_SCRIPT_START =
   /<script(?:\s+?[a-zA-z]+(=(?:["']){0,1}[a-zA-Z0-9]+(?:["']){0,1}){0,1})*\s*?>/i
@@ -26,63 +27,92 @@ export const defaultResolverFactory =
     }
   }
 
-export const enhancedImages: Plugin<[Partial<Config>?], Root> = (config) => {
+function isImage(node: any): node is Element {
+  return node.tagName === 'img'
+}
+
+function isScript(node: any): node is Element {
+  return node.tagName === 'script'
+}
+
+export const enhancedImages: Plugin<[Partial<Config>?], any> = (config) => {
   const resolvedConfig = {
     resolve: defaultResolverFactory(),
     ...config
   }
 
-  return (tree) => {
-    const images = new Map<string, { path: string; id: string }>()
-    const image_count = new Map<string, number>()
+  return (tree: Root) => {
+    let c = 0
+    const images: { [_: string]: { path: string; id: string } } = {}
 
-    visit(tree, 'image', (node, index, parent) => {
-      if (parent && typeof index === 'number') {
-        let camel = `i${camelCase(node.url)}`
-        const count = image_count.get(camel)
-        const dupe = images.get(node.url)
+    console.log(`***tree in`, JSON.stringify(tree, null, 2))
+    visit<Node, Test>(tree, 'element', (node, index, parent) => {
+      // console.log(`***node in`, { node, index, parent })
+      if (isImage(node)) {
+        const url = node.properties?.src as string
+        if (url) {
+          let id = `i${c++}`
 
-        if (count && !dupe) {
-          image_count.set(camel, count + 1)
-          camel = `${camel}_${count}`
-        } else if (!dupe) {
-          image_count.set(camel, 1)
+          const path = resolvedConfig.resolve(url)
+
+          images[url] = {
+            path,
+            id
+          }
+
+          node.tagName = 'enhanced:img'
+          node.properties = {
+            ...node.properties,
+            src: `{${id}}`
+          }
         }
-
-        images.set(node.url, {
-          path: resolvedConfig.resolve(node.url),
-          id: camel
-        })
-
-        parent.children[index] = {
-          type: 'html',
-          value: `<enhanced:img src={${camel}} alt="image"/>`
-        }
+        // console.log(`***node out`, { node })
       }
     })
 
-    let scripts = ''
-    images.forEach(
-      (x) => (scripts += `import ${x.id} from "${x.path}?enhanced";\n`)
-    )
+    if (keys(images).length > 0) {
+      const imports = map(
+        images,
+        (v) => `import ${v.id} from "${v.path}?enhanced";`
+      ).join(`\n`)
 
-    let is_script = false
+      let foundScript = false
+      visit<Node, Test>(tree, 'element', (node) => {
+        if (isScript(node)) {
+          foundScript = true
 
-    visit(tree, 'html', (node) => {
-      if (RE_SCRIPT_START.test(node.value)) {
-        is_script = true
-        node.value = node.value.replace(
-          RE_SCRIPT_START,
-          (script) => `${script}\n${scripts}`
-        )
-      }
-    })
-
-    if (!is_script) {
-      tree.children.push({
-        type: 'html',
-        value: `<script>\n${scripts}</script>`
+          // Prepend imports to the script content
+          node.children.unshift({
+            type: 'text',
+            value: imports
+          })
+          return false
+        }
       })
+
+      console.log(`***foundScript`, { foundScript })
+      if (!foundScript) {
+        let yamlTagIndex = tree.children.findIndex(
+          (child: any) => child.type === 'yaml'
+        )
+        console.log(`***yamlTagIndex`, { yamlTagIndex })
+        if (yamlTagIndex === -1) {
+          yamlTagIndex = 0
+        }
+        tree.children.splice(yamlTagIndex, 0, {
+          type: 'element',
+          tagName: 'script',
+          properties: {},
+          children: [
+            {
+              type: 'text',
+              value: imports
+            }
+          ]
+        })
+      }
     }
+
+    console.log(`***tree out`, JSON.stringify(tree, null, 2))
   }
 }

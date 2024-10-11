@@ -31,25 +31,26 @@
     "watch": "tsup-node src/index.ts --format=esm  --dts --watch",
     "test": "bun test"
   },
-  "peerDependencies": {},
-  "dependencies": {
-    "just-camel-case": "^6.2.0",
-    "unist-util-visit": "^5.0.0"
+  "peerDependencies": {
+    "@sveltejs/enhanced-img": "^0.3.8",
+    "mdsvex": "^0.12.3"
   },
   "files": [
     "dist",
     "*.md"
   ],
   "devDependencies": {
+    "@s-libs/micro-dash": "^18.0.0",
+    "@sveltejs/enhanced-img": "^0.3.8",
     "@types/bun": "latest",
+    "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.7.5",
+    "mdsvex": "^0.12.3",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",
     "tsup": "^8.3.0",
-    "typescript": "^5.0.0",
-    "mdast": "^3.0.0",
-    "unified": "^11.0.5"
+    "typescript": "^5.0.0"
   },
   "prettier": {
     "semi": false,

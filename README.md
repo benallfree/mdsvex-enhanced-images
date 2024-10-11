@@ -10,6 +10,10 @@ This plugin converts Markdown images to `<enhanced:img>` components.
 
 ## Usage
 
+```bash
+npm install mdsvex mdsvex-enhanced-images @sveltejs/enhanced-img
+```
+
 ```js
 // svelte.config.js
 import { enhancedImages } from 'mdsvex-enhanced-images'
@@ -17,10 +21,21 @@ import { enhancedImages } from 'mdsvex-enhanced-images'
 export default {
   preprocess: [
     mdsvex({
-      remarkPlugins: [enhancedImages()]
+      rehypePlugins: [enhancedImages]
     })
   ]
 }
+```
+
+```js
+// vite.config.js
+import { enhancedImages } from '@sveltejs/enhanced-img'
+import { sveltekit } from '@sveltejs/kit/vite'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [enhancedImages(), sveltekit()]
+})
 ```
 
 Now use normal Markdown-style images just as you normally would. By default, paths beginning with `$`, `@`, `./`, or `../` are left unchanged while all other paths are converted to relative paths by prepending `./`.
@@ -39,9 +54,16 @@ If the default path resolution strategy doens't work for your needs, you can opt
 ```js
 import { defaultResolverFactory } from 'mdsvex-enhanced-images'
 
-enhancedImages({
-  resolve: (path) =>defaultResolverFactory() // This is the default
-}),
+mdsvex({
+  rehypePlugins: [
+    [
+      enhancedImages,
+      {
+        resolve: (path) => defaultResolverFactory() // This is the default
+      }
+    ]
+  ]
+})
 ```
 
 ### Example: Make non-relative paths resolve to `src/assets/images`
@@ -55,13 +77,16 @@ import { defaultResolverFactory } from 'mdsvex-enhanced-images'
 const config = {
   preprocess: [
     mdsvex({
-      remarkPlugins: [
-        enhancedImages({
-          resolve: (path) =>
-            defaultResolverFactory((path) =>
-              join('src', 'assets', 'images', path)
-            )
-        })
+      rehypePlugins: [
+        [
+          enhancedImages,
+          {
+            resolve: (path) =>
+              defaultResolverFactory((path) =>
+                join('src', 'assets', 'images', path)
+              )
+          }
+        ]
       ]
     })
   ]
