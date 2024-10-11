@@ -1,5 +1,11 @@
 # mdsvex-enhanced-images
 
+## 0.2.2
+
+### Patch Changes
+
+- Fix: handle attribtue escapes
+
 ## 0.2.1
 
 ### Patch Changes

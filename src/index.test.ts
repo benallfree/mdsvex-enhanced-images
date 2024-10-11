@@ -42,6 +42,17 @@ describe('enhancedImages plugin', () => {
     expect(compiled?.code.includes('alt')).toBe(false)
   })
 
+  test('handles dangerous alt text', async () => {
+    const markdown = '!["><script>alert("XSS")</script>](image.jpg)'
+    const compiled = await _compile(markdown)
+
+    expect(compiled?.code).toContain('<enhanced:img')
+    expect(compiled?.code).toContain(`"./image.jpg"`)
+    expect(compiled?.code).toContain(
+      `alt="&quot;&gt;&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;"`
+    )
+  })
+
   test(`handles frontmatter`, async () => {
     const markdown = `---
 title: How.This.Blog.Developed

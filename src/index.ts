@@ -7,6 +7,15 @@ export type Config = {
   resolve: (path: string) => string
 }
 
+function escapeHtmlAttribute(value: string) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
 export const defaultResolverFactory =
   (relativeHandler = (path: string) => `.${sep}${path}`) =>
   (path: string) => {
@@ -34,9 +43,8 @@ export const enhancedImages: Plugin<[Partial<Config>?], any> = (config) => {
       const url = resolvedConfig.resolve(node.url)
       node.type = 'html'
       if (node.alt !== null) {
-        node.value = `<enhanced:img src="${url}" alt="${node.alt}" />`
-      }
-      else {
+        node.value = `<enhanced:img src="${url}" alt="${escapeHtmlAttribute(node.alt)}" />`
+      } else {
         node.value = `<enhanced:img src="${url}" />`
       }
     })
