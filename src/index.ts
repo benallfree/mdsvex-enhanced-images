@@ -33,7 +33,12 @@ export const enhancedImages: Plugin<[Partial<Config>?], any> = (config) => {
     visit<any, Test>(tree, 'image', (node, index, parent) => {
       const url = resolvedConfig.resolve(node.url)
       node.type = 'html'
-      node.value = `<enhanced:img src="${url}" />`
+      if (node.alt !== null) {
+        node.value = `<enhanced:img src="${url}" alt="${node.alt}" />`
+      }
+      else {
+        node.value = `<enhanced:img src="${url}" />`
+      }
     })
 
     // console.error(`***tree out`, JSON.stringify(tree, null, 2))
