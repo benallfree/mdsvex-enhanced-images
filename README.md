@@ -71,6 +71,7 @@ If you just want to change the resolution of non-relative paths (most common cas
 ```js
 // svelte.config.js
 import { defaultResolverFactory } from 'mdsvex-enhanced-images'
+import { join } from 'path'
 
 const config = {
   preprocess: [
