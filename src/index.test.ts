@@ -14,6 +14,7 @@ describe('enhancedImages plugin', () => {
 
     expect(compiled?.code).toContain('<enhanced:img')
     expect(compiled?.code).toContain(`"./image.jpg"`)
+    expect(compiled?.code).toContain(`alt="Alt text"`)
   })
 
   test(`path aliases are preserved`, async () => {
@@ -21,6 +22,7 @@ describe('enhancedImages plugin', () => {
     const compiled = await _compile(markdown)
 
     expect(compiled?.code).toContain(`"$images/image.jpg"`)
+    expect(compiled?.code).toContain(`alt="Alt text"`)
   })
 
   test(`relative paths are preserved`, async () => {
@@ -28,6 +30,16 @@ describe('enhancedImages plugin', () => {
     const compiled = await _compile(markdown)
 
     expect(compiled?.code).toContain(`"../image.jpg"`)
+    expect(compiled?.code).toContain(`alt="Alt text"`)
+  })
+
+  test('handles empty alt text', async () => {
+    const markdown = '![](image.jpg)'
+    const compiled = await _compile(markdown)
+
+    expect(compiled?.code).toContain('<enhanced:img')
+    expect(compiled?.code).toContain(`"./image.jpg"`)
+    expect(compiled?.code.includes('alt')).toBe(false)
   })
 
   test(`handles frontmatter`, async () => {
@@ -55,5 +67,6 @@ published: true
     )
     expect(compiled?.code).toContain('<enhanced:img')
     expect(compiled?.code).toContain('./image.jpg')
+    expect(compiled?.code).toContain(`alt="Alt text"`)
   })
 })
