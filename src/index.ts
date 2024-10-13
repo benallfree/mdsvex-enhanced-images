@@ -1,7 +1,7 @@
 import type { Root } from 'hast'
 import { sep } from 'path'
 import type { Plugin } from 'unified'
-import { Test, visit } from 'unist-util-visit'
+import { type Test, visit } from 'unist-util-visit'
 
 export type Config = {
   resolve: (path: string) => string

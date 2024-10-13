@@ -1,5 +1,11 @@
 # mdsvex-enhanced-images
 
+## 0.2.3
+
+### Patch Changes
+
+- Added unist-util-visit dep
+
 ## 0.2.2
 
 ### Patch Changes
