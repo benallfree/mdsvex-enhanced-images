@@ -41,7 +41,7 @@
   ],
   "devDependencies": {
     "@s-libs/micro-dash": "^18.0.0",
-    "@sveltejs/enhanced-img": "^0.3.8",
+    "@sveltejs/enhanced-img": "^0.4.4",
     "@types/bun": "latest",
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
