@@ -32,7 +32,7 @@
     "test": "bun test"
   },
   "peerDependencies": {
-    "@sveltejs/enhanced-img": "^0.3.8",
+    "@sveltejs/enhanced-img": "^0.4.4",
     "mdsvex": "^0.12.3"
   },
   "files": [
