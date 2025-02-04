@@ -1,5 +1,11 @@
 # mdsvex-enhanced-images
 
+## 0.3.0
+
+### Minor Changes
+
+- Svelte 5 compat
+
 ## 0.2.3
 
 ### Patch Changes
