@@ -40,6 +40,7 @@
     "*.md"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.27.12",
     "@s-libs/micro-dash": "^18.0.0",
     "@sveltejs/enhanced-img": "^0.4.4",
     "@types/bun": "latest",
