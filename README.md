@@ -6,7 +6,9 @@ This plugin converts Markdown images to `<enhanced:img>` components.
 
 - Automatically imports images used in Markdown
 - Converts Markdown image syntax to `<enhanced:img>`
+- Skips HTTP/HTTPS URLs to avoid processing errors with external images
 - Handles path resolution for various import scenarios
+- Preserves title attributes from Markdown images
 
 ## Usage
 
@@ -45,6 +47,12 @@ Now use normal Markdown-style images just as you normally would. By default, pat
 ![Example](../example.png) // Resolves to ../example.png
 ![Example]($images/example.png) // Resolves to $images/example.png
 ![Example](@images/example.png) // Resolves to @images/example.png
+
+// Title attributes are preserved
+![Example with tooltip](example.png "This text appears on hover")
+
+// External URLs remain as standard <img> tags
+![External image](https://example.com/image.jpg)
 ```
 
 ## Advanced Usage: Custom Path Resolution
