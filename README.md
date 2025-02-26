@@ -49,7 +49,7 @@ Now use normal Markdown-style images just as you normally would. By default, pat
 
 ## Advanced Usage: Custom Path Resolution
 
-If the default path resolution strategy doens't work for your needs, you can optionally provide a custom `resolve` function:
+If the default path resolution strategy doesn't work for your needs, you can optionally provide a custom `resolve` function:
 
 ```js
 mdsvex({

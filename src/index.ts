@@ -40,6 +40,11 @@ export const enhancedImages: Plugin<[Partial<Config>?], any> = (config) => {
   return (tree: Root) => {
     // console.error(`***tree in`, JSON.stringify(tree, null, 2))
     visit<any, Test>(tree, 'image', (node, index, parent) => {
+      // Ignore images outside of project
+      if (node.url.startsWith('http://') || node.url.startsWith('https://')) {
+        return;
+      }
+
       const url = resolvedConfig.resolve(node.url)
       node.type = 'html'
       if (node.alt !== null) {

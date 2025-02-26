@@ -80,4 +80,24 @@ published: true
     expect(compiled?.code).toContain('./image.jpg')
     expect(compiled?.code).toContain(`alt="Alt text"`)
   })
+
+  test('skips processing for HTTP/HTTPS image URLs', async () => {
+    let markdown = '![External image](https://example.com/image.jpg)'
+    let compiled = await _compile(markdown)
+    
+    expect(compiled?.code.includes('<enhanced:img')).toBe(false)
+    
+    expect(compiled?.code).toContain('<img')
+    expect(compiled?.code).toContain('src="https://example.com/image.jpg"')
+    expect(compiled?.code).toContain('alt="External image"')
+    
+    markdown = '![Another image](http://example.com/photo.png)'
+    compiled = await _compile(markdown)
+    
+    expect(compiled?.code.includes('<enhanced:img')).toBe(false)
+    
+    expect(compiled?.code).toContain('<img')
+    expect(compiled?.code).toContain('src="http://example.com/photo.png"')
+    expect(compiled?.code).toContain('alt="Another image"')
+  })
 })
