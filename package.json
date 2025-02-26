@@ -1,6 +1,6 @@
 {
   "version": "0.3.0",
-  "name": "mdsvex-enhanced-images",
+  "name": "mdsvex-enhanced-images-fork",
   "description": "An MDsveX plugin to preprocess Markdown images using @sveltejs/enhanced-img.",
   "author": {
     "name": "benallfree",

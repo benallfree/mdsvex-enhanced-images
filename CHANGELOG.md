@@ -1,5 +1,12 @@
 # mdsvex-enhanced-images
 
+## 0.3.1
+
+### Patch Changes
+
+- Ignore external images by default
+- Keep title text
+
 ## 0.3.0
 
 ### Minor Changes
@@ -16,7 +23,7 @@
 
 ### Patch Changes
 
-- Fix: handle attribtue escapes
+- Fix: handle attribute escapes
 
 ## 0.2.1
 
