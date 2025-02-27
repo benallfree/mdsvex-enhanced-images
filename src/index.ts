@@ -20,6 +20,8 @@ export const defaultResolverFactory =
   (relativeHandler = (path: string) => `.${sep}${path}`) =>
   (path: string) => {
     if (
+      path.startsWith('http://') ||
+      path.startsWith('https://') ||
       path.startsWith('$') ||
       path.startsWith('@') ||
       path.startsWith(`.${sep}`) ||
