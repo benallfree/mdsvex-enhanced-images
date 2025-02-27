@@ -40,13 +40,26 @@ export const enhancedImages: Plugin<[Partial<Config>?], any> = (config) => {
   return (tree: Root) => {
     // console.error(`***tree in`, JSON.stringify(tree, null, 2))
     visit<any, Test>(tree, 'image', (node, index, parent) => {
+      // Ignore images outside of project
+      if (node.url.startsWith('http://') || node.url.startsWith('https://')) {
+        return;
+      }
+
       const url = resolvedConfig.resolve(node.url)
       node.type = 'html'
+      let imgHtml = `<enhanced:img src="${url}"`
+      
       if (node.alt !== null) {
-        node.value = `<enhanced:img src="${url}" alt="${escapeHtmlAttribute(node.alt)}" />`
-      } else {
-        node.value = `<enhanced:img src="${url}" />`
+        imgHtml += ` alt="${escapeHtmlAttribute(node.alt)}"`
       }
+      
+      if (node.title !== null && node.title !== undefined && node.title !== '') {
+        imgHtml += ` title="${escapeHtmlAttribute(node.title)}"`
+      }
+      
+      imgHtml += ` />`
+      
+      node.value = imgHtml
     })
 
     // console.error(`***tree out`, JSON.stringify(tree, null, 2))
