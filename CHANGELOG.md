@@ -1,5 +1,11 @@
 # mdsvex-enhanced-images
 
+## 0.3.2
+
+### Patch Changes
+
+- Fixed fixed defaultResolverFactory to include URLs
+
 ## 0.3.1
 
 ### Patch Changes
