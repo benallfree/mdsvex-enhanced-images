@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- Ignore external images by default
 - Keep title text
+- Ignore external images by default
 
 ## 0.3.0
 
